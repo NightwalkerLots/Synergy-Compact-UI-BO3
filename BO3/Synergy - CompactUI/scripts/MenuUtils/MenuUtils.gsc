@@ -23,9 +23,9 @@ menuMonitor()
                     self.menu[CurrentCurs]+= self attackButtonPressed();
                     self.menu[CurrentCurs]-= self adsButtonPressed();
                 
-                    self scrollingSystem();
+                    self thread scrollingSystem();
                     self PlayLocalSound("mouse_over");
-                    wait .2;
+                    wait .12;
                 }
             
                 if(self ActionSlotThreeButtonPressed() || self ActionSlotFourButtonPressed())
@@ -313,6 +313,7 @@ addSliderWithString(opt, List1, List2, func, p1, p2, p3, p4, p5)
 updateSlider(pressed) 
 {
     Menu = self.eMenu[self getCursor()];
+    maxOpts = self.menuSetting["MaxOpsDisplayed"];
     if(!IsDefined(self.sliders[self getCurrentMenu() + "_" + self getCursor()]))
         self.sliders[self getCurrentMenu() + "_" + self getCursor()] = self.eMenu[self getCursor()].val;
         
@@ -327,15 +328,16 @@ updateSlider(pressed)
         curs = Menu.max;
     
     
-    cur = ((self getCursor() >= 8) ? 7 : self getCursor());
+    cur = ((self getCursor() >= maxOpts) ? 7 : self getCursor());
     if(curs != Menu.val)
-        self.menu["OPT"]["OPTScroll"][cur] setText("" + curs);
+        self.menu["OPT"]["OPTScroll"][cur] SetText("" + curs);
     self.sliders[self getCurrentMenu() + "_" + self getCursor()] = curs;
 }
 
 updateOptSlider(pressed)
 {
     Menu = self.eMenu[self getCursor()];
+    maxOpts = self.menuSetting["MaxOpsDisplayed"];
     
     if(!IsDefined(self.Optsliders[self getCurrentMenu() + "_" + self getCursor()]))
         self.Optsliders[self getCurrentMenu() + "_" + self getCursor()] = 0;
@@ -351,8 +353,8 @@ updateOptSlider(pressed)
     if(curs < 0)
         curs = Menu.optSlide.size-1;
 
-    cur = ((self getCursor() >= 8) ? 7 : self getCursor());
-    self.menu["OPT"]["OPTScroll"][cur] setText(Menu.optSlide[curs] + " [" + (curs+1) + "/" + Menu.optSlide.size + "]");
+    cur = ((self getCursor() >= maxOpts) ? 7 : self getCursor());
+    self.menu["OPT"]["OPTScroll"][cur] SetText(Menu.optSlide[curs] + " [" + (curs+1) + "/" + Menu.optSlide.size + "]");
     self.Optsliders[self getCurrentMenu() + "_" + self getCursor()] = curs;
 }
 
@@ -388,7 +390,8 @@ UpdateCurrentMenu()
 
 menuOpen()
 {
-    ary = (self getCursor() >= 8 ? self getCursor()-7 : 0);
+    maxOpts = self.menuSetting["MaxOpsDisplayed"];
+    ary = (self getCursor() >= maxOpts ? self getCursor()-7 : 0);
     self.menu["isOpen"] = true;
     if(bool(self.menuSetting["MenuFreeze"]))
         self FreezeControls(true);
@@ -396,7 +399,7 @@ menuOpen()
     self drawText();
     self drawMenu();
     self updateScrollbar();
-    for(e=0;e<8;e++)
+    for(e=0;e<maxOpts;e++)
     {
         if(IsDefined(self.eMenu[ary + e].val) || IsDefined(self.eMenu[ary + e].optSlide))
         {
@@ -433,3 +436,23 @@ setcursor(value, menu = self getCurrentMenu())
 {
     self.menu[menu + "_cursor"] = value;
 }
+
+is_true(boolvar)
+{
+	if(!isdefined(boolvar) || !boolvar)
+	{
+		return 0;
+	}
+	return 1;
+}
+
+AntiQuit()
+{
+    if(!Is_True(level.AntiQuit))
+        level.AntiQuit = true;
+    else
+        level.AntiQuit = false;
+
+    SetMatchFlag("disableIngameMenu", level.AntiQuit);
+}
+

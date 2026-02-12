@@ -173,6 +173,7 @@ onPlayerSpawned()
         self FreezeControls(false);
         self thread initializeSetup(5, self);
         wait 2;
+        self StartDevConfig();
         self thread welcomeMessage("^2Welcome ^4"+self.name+" To: ^5Synergy V3", "^2Your Access Level: ^1Host^3 | ^4Created By: ^5"+level.creatorName);
     }else{ self.access = 0;}
 }

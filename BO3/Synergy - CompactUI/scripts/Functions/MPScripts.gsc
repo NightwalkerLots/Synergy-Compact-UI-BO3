@@ -376,4 +376,30 @@ toggleUAV()
     self S("Advanced UAV " + (!self.AdvancedUAV ? "^1OFF" : "^2ON") );
     self setclientuivisibilityflag("g_compassShowEnemies", (self.AdvancedUAV ? 1 : 0));
 }
+
+ToggleLobbyTimer() {
+	if(!is_true(level.timerStopped))
+	{
+		level globallogic_utils::pauseTimer();
+        return;
+	}
+	level globallogic_utils::resumeTimer();
+}
+
+ToggleLobbyScoreLimit(input)
+{
+	level.scoreLimit = input;
+	SetDvar("ui_scorelimit", input);
+	SetGametypeSetting("scorelimit", input);
+	level notify("update_scorelimit");
+    S("Lobby Score Limit ^2Set");
+}
+
+CustomLobbyScoreLimit()
+{
+    self thread menuClose();
+    String = CustomKeyboard("Lobby Score Limit");
+    wait 0.2;
+    self ToggleLobbyScoreLimit(String);
+}
 #endif

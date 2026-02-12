@@ -1,22 +1,24 @@
-drawMenu()
+drawMenu()  //align, relative, x, y, width, height, color, shader, sort, alpha, movescale, isLevel
 {  
-    numOpts = ((self.eMenu.size >= 8) ? 8 : self.eMenu.size);
+    maxOpts = self.menuSetting["MaxOpsDisplayed"];
+    numOpts = ((self.eMenu.size >= maxOpts) ? maxOpts : self.eMenu.size);
+    xOffset = self.MenuHudXOffset;
     if(!isDefined(self.menu["UI"]))
         self.menu["UI"] = [];
     if(self.menu["Theme"]["Default"] == true){
-        self.menu["UI"]["OPT_BG"] = self createRectangle("TOPLEFT", "TOP", -425, 90, 170, int(numOpts*15) + 45, self.menuSetting["BackgroundGradRainbow"], "white", 0, 0, true);
+        self.menu["UI"]["OPT_BG"] = self createRectangle("TOPLEFT", "TOP", -425 + xOffset, 90, 170, int(numOpts*15) + 45, self.menuSetting["BackgroundGradRainbow"], "white", 0, 0, true);
         self.menu["UI"]["OPT_BG"] affectElement("alpha", .2, .6);
     
-        self.menu["UI"]["BGTitle"] = self createRectangle("TOPLEFT", "TOP", -425, 90, 170, 30, self.menuSetting["BannerNoneRainbow"], "white", 1, 0, true);
+        self.menu["UI"]["BGTitle"] = self createRectangle("TOPLEFT", "TOP", -425 + xOffset, 90, 170, 30, self.menuSetting["BannerNoneRainbow"], "white", 1, 0, true);
         self.menu["UI"]["BGTitle"] affectElement("alpha",.2,.6);
     
-        self.menu["UI"]["BGTitle_Grad"] = self createRectangle("TOPLEFT", "TOP", -425, 90, 170, 30, self.menuSetting["BannerGradRainbow"], "white", 3, 0, true);
+        self.menu["UI"]["BGTitle_Grad"] = self createRectangle("TOPLEFT", "TOP", -425 + xOffset, 90, 170, 30, self.menuSetting["BannerGradRainbow"], "white", 3, 0, true);
         self.menu["UI"]["BGTitle_Grad"] affectElement("alpha", .2, .6);
     
-        self.menu["UI"]["CUR_TITLE"] = self createRectangle("LEFT", "CENTER", -425, -112, 170, 15, (0, 0, 0), "white", 4, 0, true);
+        self.menu["UI"]["CUR_TITLE"] = self createRectangle("LEFT", "CENTER", -425 + xOffset, -112, 170, 15, (0, 0, 0), "white", 4, 0, true);
         self.menu["UI"]["CUR_TITLE"] affectElement("alpha",.2, 1);
     
-        self.menu["UI"]["SCROLL"] = self createRectangle("CENTER", "TOP", -340, 0, 170, 16, self.menuSetting["ScrollerGradRainbow"], "white", 3, 0, true);
+        self.menu["UI"]["SCROLL"] = self createRectangle("CENTER", "TOP", -340 + xOffset, 0, 170, 16, self.menuSetting["ScrollerGradRainbow"], "white", 3, 0, true);
         self.menu["UI"]["SCROLL"] affectElement("alpha", .2, .6);
     }
     else if(self.menu["Theme"]["Flex"] == true)
@@ -40,24 +42,26 @@ drawMenu()
 
 drawText()
 {
-    numOpts = ((self.eMenu.size >= 8) ? 8 : self.eMenu.size);
+    maxOpts = self.menuSetting["MaxOpsDisplayed"];
+    numOpts = ((self.eMenu.size >= maxOpts) ? maxOpts : self.eMenu.size);
+    xOffset = self.MenuHudXOffset;
     if(!isDefined(self.menu["OPT"]))
         self.menu["OPT"] = [];
     if(!IsDefined(self.menu["OPT"]["OPTScroll"]))
         self.menu["OPT"]["OPTScroll"] = [];
     if(self.menu["Theme"]["Default"] == true){  
-        self.menu["OPT"]["TITLE"] = self createText("default", 1.5, "CENTER", "TOP", -340, 105, 10, 0, "Synergy V3", (1, 1, 1), true);
+        self.menu["OPT"]["TITLE"] = self createText("default", 1.5, "CENTER", "TOP", -340 + xOffset, 105, 10, 0, "Synergy V3", (1, 1, 1), true);
         self.menu["OPT"]["TITLE"] affectElement("alpha",.4,1);
     
-        self.menu["OPT"]["SUB_TITLE"] = self createText("default", 1, "LEFT", "TOP", -422, 127, 10, 0, self.menuTitle, (1, 1, 1), true);
+        self.menu["OPT"]["SUB_TITLE"] = self createText("default", 1, "LEFT", "TOP", -422 + xOffset, 127, 10, 0, self.menuTitle, (1, 1, 1), true);
         self.menu["OPT"]["SUB_TITLE"] affectElement("alpha", .4, 1);
     
-        self.menu["OPT"]["OPTSize"] = self createText("default", 1, "RIGHT", "TOP", -260, 127, 10, 0, self getCursor() + 1 + "/" + self.eMenu.size, (1, 1, 1), true);
+        self.menu["OPT"]["OPTSize"] = self createText("default", 1, "RIGHT", "TOP", -260 + xOffset, 127, 10, 0, self getCursor() + 1 + "/" + self.eMenu.size, (1, 1, 1), true);
         self.menu["OPT"]["OPTSize"] affectElement("alpha",.4, 1);
     
-        for(e=0;e<8;e++)
+        for(e=0;e<maxOpts;e++)
         {
-            self.menu["OPT"][e] = self createText("default", 1, "LEFT", "TOP", -422, 142 + e*15, 4, 0, "", (1, 1, 1), true);
+            self.menu["OPT"][e] = self createText("default", 1, "LEFT", "TOP", -422 + xOffset, 142 + e*15, 4, 0, "", (1, 1, 1), true);
             self.menu["OPT"][e] affectElement("alpha",.4, 1);
         }
     }
@@ -72,7 +76,7 @@ drawText()
         self.menu["OPT"]["OPTSize"] = self createText("default", 1.2, "CENTER", "CENTER", 112, -210, 10, 0, self getCursor() + 1 + "/" + self.eMenu.size, (1, 1, 1), true);
         self.menu["OPT"]["OPTSize"] affectElement("alpha",.4, 1);
     
-        for(e=0;e<8;e++)
+        for(e=0;e<maxOpts;e++)
         {
             self.menu["OPT"][e] = self createText("default", 1.2, "LEFT", "CENTER", -121, -195 + e*12, 4, 0, "", (1, 1, 1), true);
             self.menu["OPT"][e] affectElement("alpha",.4, 1);
@@ -83,8 +87,10 @@ drawText()
 
 setMenuText()
 {
-    ary = (self getCursor() >= 8 ? self getCursor()-7 : 0);
-    for(e=0;e<8;e++)
+    maxOpts = self.menuSetting["MaxOpsDisplayed"];
+    ary = (self getCursor() >= maxOpts ? self getCursor()-7 : 0);
+    xOffset = self.MenuHudXOffset;
+    for(e=0;e<maxOpts;e++)
     {
         if(IsDefined(self.menu["OPT"]["OPTScroll"][e]))
             self.menu["OPT"]["OPTScroll"][e] destroy();
@@ -92,14 +98,14 @@ setMenuText()
         if(isDefined(self.menu["OPT"][e]))
         {
             self.menu["OPT"][e].color = ((isDefined(self.eMenu[ary + e].toggle) && self.eMenu[ary + e].toggle) ? (0, 1, 0) : (1, 1, 1));
-            self.menu["OPT"][e] setText(self.eMenu[ary + e].opt);
+            self.menu["OPT"][e] SetText(self.eMenu[ary + e].opt);
         }
         if(self.menu["Theme"]["Default"] == true){
             if(IsDefined(self.eMenu[ary + e].val))
-                self.menu["OPT"]["OPTScroll"][e] = self createText("default", 1, "RIGHT", "TOP", -260, 142 + e*15, 5, 1, "" + ((!isDefined(self.sliders[self getCurrentMenu() + "_" + (ary + e)])) ? self.eMenu[ary + e].val : self.sliders[self getCurrentMenu() + "_" + (ary + e)]), (1, 1, 1), true);
+                self.menu["OPT"]["OPTScroll"][e] = self createText("default", 1, "RIGHT", "TOP", -260 + xOffset, 142 + e*15, 5, 1, "" + ((!isDefined(self.sliders[self getCurrentMenu() + "_" + (ary + e)])) ? self.eMenu[ary + e].val : self.sliders[self getCurrentMenu() + "_" + (ary + e)]), (1, 1, 1), true);
         
             if(IsDefined(self.eMenu[ary + e].optSlide))
-                self.menu["OPT"]["OPTScroll"][e] = self createText("default", 1, "RIGHT", "TOP", -260, 142 + e*15, 5, 1, ((!isDefined(self.Optsliders[self getCurrentMenu() + "_" + (ary + e)])) ? self.eMenu[ary + e].optSlide[0] + " [" + 1 + "/" + self.eMenu[ary + e].optSlide.size + "]" : self.eMenu[ary + e].optSlide[self.Optsliders[self getCurrentMenu() + "_" + (ary + e)]] + " [" + ((self.Optsliders[self getCurrentMenu() + "_" + (ary + e)])+1) + "/" + self.eMenu[ary + e].optSlide.size + "]"), (1, 1, 1), true);
+                self.menu["OPT"]["OPTScroll"][e] = self createText("default", 1, "RIGHT", "TOP", -260 + xOffset, 142 + e*15, 5, 1, ((!isDefined(self.Optsliders[self getCurrentMenu() + "_" + (ary + e)])) ? self.eMenu[ary + e].optSlide[0] + " [" + 1 + "/" + self.eMenu[ary + e].optSlide.size + "]" : self.eMenu[ary + e].optSlide[self.Optsliders[self getCurrentMenu() + "_" + (ary + e)]] + " [" + ((self.Optsliders[self getCurrentMenu() + "_" + (ary + e)])+1) + "/" + self.eMenu[ary + e].optSlide.size + "]"), (1, 1, 1), true);
         }
         else if(self.menu["Theme"]["Flex"] == true)
         {
@@ -114,22 +120,46 @@ setMenuText()
 
 resizeMenu()
 {
+    maxOpts = self.menuSetting["MaxOpsDisplayed"];
     if(self.menu["Theme"]["Default"] == true){
-        numOpts = ((self.eMenu.size >= 8) ? 8 : self.eMenu.size);
+        numOpts = ((self.eMenu.size >= maxOpts) ? maxOpts : self.eMenu.size);
         self.menu["UI"]["OPT_BG"] setShader("white", 170, int(numOpts*15) + 45);
     }
     else if(self.menu["Theme"]["Flex"] == true){
-        numOpts = ((self.eMenu.size >= 8) ? 8 : self.eMenu.size);
+        numOpts = ((self.eMenu.size >= maxOpts) ? maxOpts : self.eMenu.size);
         self.menu["UI"]["OPT_BG"] setShader("white", -185, int(numOpts*15) + 100);
     }
 }
 
 refreshTitle()
 {
-    self.menu["OPT"]["SUB_TITLE"] setText(self.menuTitle);
+    self.menu["OPT"]["SUB_TITLE"] SetText(self.menuTitle);
 }
 
 refreshOPTSize()
 {
-    self.menu["OPT"]["OPTSize"] setText(self getCursor() + 1 + "/" + self.eMenu.size);
+    self.menu["OPT"]["OPTSize"] SetText(self getCursor() + 1 + "/" + self.eMenu.size);
+}
+
+ChangeColor(color)
+{
+    self FadeOverTime(.3);
+    color FadeOverTime(.3);
+    self.color = color;
+}
+
+rgb(r, g, b)
+{
+    return (r/255, g/255, b/255);
+}
+
+DestroyHud()
+{
+    if(!isDefined(self))
+        return;
+    
+    self destroy();
+
+    if(isDefined(self))
+        self.hud_count--;
 }

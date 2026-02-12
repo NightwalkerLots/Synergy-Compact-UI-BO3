@@ -72,6 +72,8 @@ MenuLoad(Val)
     
     self.menuSetting["MenuX"] = int(MenuDefaults[18]);
     self.menuSetting["MenuY"] = int(MenuDefaults[19]);
+    self.menuSetting["MaxOpsDisplayed"] = GetDvarInt("MaxOpsDisplayed", 8);
+    self.MenuHudXOffset = int(585);
     
     if(IsDefined(Val) && Val == 1 || IsDefined(Val) && Val == 0)
     {
@@ -288,4 +290,15 @@ MenuPreSetCol(Val,HUD,Bool)
         self.menuSetting[HUD + "GradColor" + e] = RGB[e];
         
     self.menuSetting[HUD + "GradRainbow"] = (RGB[0],RGB[1],RGB[2]);
+}
+
+SetMenuMaxOptions( val ) {
+    self.menuSetting["MaxOpsDisplayed"] = val;
+    Setdvar("MaxOpsDisplayed", val);
+    self setMenuText();
+    self refreshTitle();
+    self resizeMenu();
+    self refreshOPTSize();
+    self updateScrollbar();
+    S("Menu Refreshed");
 }

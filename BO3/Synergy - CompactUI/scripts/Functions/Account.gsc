@@ -448,14 +448,14 @@ CustomKeyboard(Title = "Keyboard")
                 KeyRow = "";
                 for(e=0;e<4;e++)
                     KeyRow += (capitals ? (toLower( KBKeys[i][e] ) + " \n") : (KBKeys[i][e] + "\n") );
-                KbUI["KbKeys_"+i] setText( KeyRow );
+                KbUI["KbKeys_"+i] SetText( KeyRow );
             }
             wait .2;
         }
         
         KbUI["Cursor"].x = KbUI["KbKeys_" + cursX].x - 4;
         KbUI["Cursor"].y = KbUI["KbKeys_0"].y + (cursY * 14.5);
-        KbUI["Preview"] setText( result );
+        KbUI["Preview"] SetText( result );
         wait .05;
     }
     self destroyAll( KbUI );

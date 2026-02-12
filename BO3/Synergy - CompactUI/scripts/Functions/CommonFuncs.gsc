@@ -1,10 +1,79 @@
-S(Message)
+S(Message, player = self)
 {
-    self iPrintLnBold(Message);
+    if( !isplayer(self) ) { //Script ran via server and not threaded on a player
+        name = "^5SYSTEM ^7:";
+    } else {
+        name = player.name;
+    }
+    
+    host = util::gethostplayer();
+    text = ( name + " ^7" + message );
+
+    if( self IsHost() ) { 
+        host thread HostHintText(text, false);
+    }
+
+    else { self iPrintLnBold(Message); }
 }
+
 P(Message)
 {
     self iPrintLn(Message);
+}
+
+HostHintText(text, rainbow = false, show_for_time = 5, font_scale = 1.1, xpos = -285, ypos = -50 ) {
+    saved_message = text;
+    if( !isDefined(self.notifications["count"]) ) {
+        self.notifications = [];
+        self.notifications["count"] = int(0);
+    }
+    i = self.notifications["text"].size;
+    if( isDefined( self.notifications["text"] ) ) {
+        self.notifications_adding = 1;
+        foreach( ui in self.notifications["text"] ) {
+            ui MoveOverTime(0.5);
+            ui.y = ui.y - 11;
+        }
+    } else {
+        i = 0; 
+    }
+    text = self createText("small", font_scale, "RIGHT", "RIGHT", xpos, ypos, 1, 1, saved_message, (1,1,1));
+    self.notifications["text"][i] = text;
+    self.notifications["count"]++;
+    if( rainbow == true ) {
+        for( i = 0; i <= 10; i++ ) {
+            r = RandomIntRange(1, 255);
+            g = RandomIntRange(1, 255);
+            b = RandomIntRange(1, 255);
+            text ChangeColor( rgb( r, g, b ) );
+            wait 0.3;
+            if( i >= 10 ) {
+                thread AutoDelHud( text, 9 );
+                wait Float(0.7);
+                self.notifications_adding = 0; // allows next message in queue to play
+                self.notifications_queue = int(self.notifications_queue) - 1;
+                return;
+            }
+        }
+    }
+    thread AutoDelHud( self.notifications["text"][i], 9 );
+    wait Float(0.7);
+    self.notifications_adding = 0; // allows next message in queue to play
+    self.notifications_queue = int(self.notifications_queue) - 1;
+    //iPrintLnBold(i);
+}
+
+AutoDelHud( elm, time = 5 ) {
+    self endon("frost_host_notivs_destroyed");
+    wait time;
+    elm FadeOverTime(1);
+    elm.alpha = 0;
+    wait 2;
+    elm DestroyHud();
+    if( self.notifications["count"] > 0 ) self.notifications["count"]--;
+    if( self.notifications["count"] == 0 ) {
+        self.notifications["text"] = undefined;
+    }
 }
 
 Godmode()

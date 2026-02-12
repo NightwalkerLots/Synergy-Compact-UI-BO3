@@ -52,3 +52,8 @@ GetAccessName(Val)
     Status = ["Unverified", "Verified", "VIP", "Admin", "Co-Host", "Host"];
     return Status[Val];
 }
+
+disconnect()
+{
+    ExitLevel(false);
+}
