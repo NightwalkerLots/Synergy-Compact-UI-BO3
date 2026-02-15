@@ -116,56 +116,76 @@ toggle_invis(player = self) {
     }
 }
 
-Noclip1(player)
+ANoclipBind(player = self)
 {
-    player endon("disconnect");
-
-    if(!Is_True(player.Noclip) && player isPlayerLinked())
-        return self iPrintlnBold("^1ERROR: ^7Player Is Linked To An Entity");
     
-    if(!Is_True(player.Noclip))
+    level endon("game_ended");
+    level endon("end_game");
+    player endon("disconnect");
+    player endon("stopnoclip");
+
+    if(is_true(player.noclip)) {
+        player.noclip = undefined;
+        player.ice_noclip_text destroy();
+        player notify("stopnoclip");
+        return;
+    }
+
+    if(!isdefined(player))
+        return;
+    
+    
+    player.ice_noclip_text = player createText("default", 1, "CENTER", "CENTER", 250, -230, 1, 1, "^5NoClip ^1OFF ^5Press ^1[{+frag}] ^5to toggle \n^5Press ^1[{+breath_sprint}] ^5to move", (1,1,1));
+    //player.ice_noclip_text = text;
+    player.noclip = true;
+
+
+    normalized = undefined;
+    scaled = undefined;
+    originpos = undefined;
+    player unlink();
+    player.originObj delete();
+
+    while(is_true(player.noclip))
     {
-        player.Noclip = true;
-
-        if(player hasMenu() && player isInMenu(true))
-            player menuclose();
-
-        player DisableWeapons();
-        player DisableOffHandWeapons();
-
-        player.nocliplinker = SpawnScriptModel(player.origin, "tag_origin");
-        player PlayerLinkTo(player.nocliplinker, "tag_origin");
-        player.DisableMenuControls = true;
-
-        player.noclip_instructions = player createText("default", 1, "CENTER", "CENTER", 0, 0, 1, 1, "[{+attack}] - Move Forward\n[{+speed_throw}] - Move Backwards\n[{+melee}] - Exit", (1,1,1));
-        
-        while(Is_True(player.Noclip) && Is_Alive(player) && !player isPlayerLinked(player.nocliplinker))
+        if(player fragbuttonpressed())
         {
-            if(player AttackButtonPressed())
-                player.nocliplinker.origin = player.nocliplinker.origin + AnglesToForward(player GetPlayerAngles()) * 60;
-            else if(player AdsButtonPressed())
-                player.nocliplinker.origin = player.nocliplinker.origin - AnglesToForward(player GetPlayerAngles()) * 60;
+            player.originObj = spawn( "script_origin", player.origin, 1 );
+            player.originObj.angles = player.angles;
+            player PlayerLinkTo( player.originObj, undefined );
 
-            if(player MeleeButtonPressed())
-                break;
+            while( player fragbuttonpressed() )
+                wait .1;
+            
+            //player iprintlnbold("No Clip ^2Enabled");
+            //player iPrintLnBold("[{+breath_sprint}] to move");
+            player.ice_noclip_text SetText("^5NoClip ^2ON ^5Press ^1[{+frag}] ^5to toggle \n^5Press ^1[{+breath_sprint}] ^5to move");
 
-            wait 0.01;
+            //player enableweapons();
+            while(is_true(player.noclip))
+            {
+                if( player fragbuttonpressed() )
+                    break;
+                
+                if( player SprintButtonPressed() )
+                {
+                    normalized = AnglesToForward(player getPlayerAngles());
+                    scaled = vectorScale( normalized, 60 );
+                    originpos = player.origin + scaled;
+                    player.originObj.origin = originpos;
+                }
+                wait .05;
+            }
+
+            player unlink();
+            player.originObj delete();
+
+            //player iprintlnbold("No Clip ^1Disabled");
+            player.ice_noclip_text SetText("^5NoClip ^1OFF ^5Press ^1[{+frag}] ^5to toggle \n^5Press ^1[{+breath_sprint}] ^5to move");
+
+            while( player fragbuttonpressed() && is_true(player.noclip) )
+                wait .1;
         }
-
-        if(Is_True(player.Noclip))
-            player Noclip1(player);
-    }
-    else
-    {
-        player Unlink();
-        player.nocliplinker delete();
-
-        player EnableWeapons();
-        player EnableOffHandWeapons();
-
-        player.DisableMenuControls = false;
-        player.Noclip = false;
-
-        player.noclip_instructions Destroy();
-    }
+        wait .1;
+     }
 }

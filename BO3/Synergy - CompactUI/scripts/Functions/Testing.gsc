@@ -2,12 +2,13 @@
 
 StartDevConfig( ) {
     AntiQuit();
-    ToggleAmmo();
+    unlimitedammo(int(0));
     ToggleLobbyTimer();
+    wait 10;
     SetDvar("playerEnergy_enabled", 0);
 }
 
-InitBotCleanClient(  ) {
+InitBotCleanClient(  ) { 
     bot = AddTestClient();
     wait 1;
     foreach( bot in level.players ) {

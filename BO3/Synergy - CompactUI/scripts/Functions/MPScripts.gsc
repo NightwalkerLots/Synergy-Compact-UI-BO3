@@ -424,4 +424,43 @@ UnlimitedSpecialist(player = self)
     else
         player.UnlimitedSpecialist = false;
 }
+
+function_334c8f84(player = self)
+{
+	if(IS_TRUE(level.teambased))
+	{
+		return;
+	}
+	var_9d1fedce = game["menu_changeclass"];
+	player openMenu(var_9d1fedce);
+	player waittill("menuresponse", menu, response);
+	if(response == "cancel")
+	{
+		return;
+	}
+	player.selectedClass = 1;
+	player closeInGameMenu();
+	playerclass = player loadout::getClassChoice(response);
+	if(isdefined(player.pers["class"]) && player.pers["class"] == playerclass)
+	{
+		return;
+	}
+	self.pers["changed_class"] = 1;
+	self notify("changed_class", game["menu_changeclass_" + player.team]);
+	if(isdefined(self.curClass) && self.curClass == playerclass)
+	{
+		self.pers["changed_class"] = 0;
+	}
+	self.pers["class"] = playerclass;
+	self.curClass = playerclass;
+	self.pers["weapon"] = undefined;
+	if(self.sessionstate == "playing")
+	{
+		self loadout::setClass(self.pers["class"]);
+		self.tag_stowed_back = undefined;
+		self.tag_stowed_hip = undefined;
+		self loadout::giveLoadout(self.pers["team"], self.pers["class"]);
+		self killstreaks::give_owned();
+	}
+}
 #endif

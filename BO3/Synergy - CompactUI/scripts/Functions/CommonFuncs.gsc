@@ -76,32 +76,29 @@ AutoDelHud( elm, time = 5 ) {
     }
 }
 
-ToggleAmmo()
+unlimitedammo(type, player = self)
 {
-    #ifdef ZM 
-    self endon("stopInfAmmo");
-    self endon("game_ended");
-    #endif
-    if(!isDefined(self.UnlimAmmo))
-    {
-        self.UnlimAmmo = true;
-        self S("Infinite Ammo ^2Enabled");
-    }
-    else
-    {
-        self.UnlimAmmo = undefined;
-        self S("Infinite Ammo ^1Disabled");
-        self notify("stopInfAmmo");
-    }
-    while(self.UnlimAmmo == true)
-    {
-        Clip = self GetCurrentWeapon();
-        if(self getWeaponAmmoClip(Clip) < 999){
-            self SetWeaponAmmoClip(Clip, 999);
-            self SetWeaponAmmoStock(Clip, 999);
-            wait .1;
-        }
-    }
+	player notify("EndUnlimitedAmmo");
+	player endon("EndUnlimitedAmmo");
+	player endon("disconnect");
+    player.unlimitedammo = undefined;
+	if(type != int(2))
+	{
+        player.unlimitedammo = true;
+		while(1)
+		{
+			weapon = player GetCurrentWeapon();
+			if(isdefined(weapon) && weapon != level.weaponNone)
+			{
+				player giveMaxAmmo(weapon);
+				if(type == int(0))
+				{
+					player SetWeaponAmmoClip(weapon, weapon.clipSize);
+				}
+			}
+			player util::waittill_any("weapon_fired", "weapon_change");
+		}
+	}
 }
 
 KickPlayer(player)

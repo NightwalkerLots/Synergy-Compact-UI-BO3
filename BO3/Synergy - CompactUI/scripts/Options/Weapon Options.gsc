@@ -2,6 +2,11 @@ PopulateWeaponOptions( ) {
     switch (self getCurrentMenu()) {
         case "Weapon Manipulation":
             self addMenu("Weapon Manipulation", "Weapon Manipulation");
+            #ifdef MP 
+                self addOpt("Change Class", ::function_334c8f84);
+            #endif
+
+
             #ifdef ZM
                 self addOpt("Upgrade Current Weapon", ::UpgradeWeapon, self, self GetCurrentWeapon());
             #endif

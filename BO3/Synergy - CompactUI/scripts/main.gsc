@@ -164,7 +164,8 @@ onPlayerConnect()
 
     
     #ifdef MP 
-    host S("Has Connected", self);
+    if(!self IsTestClient())
+        host S("Has ^2Connected", self);
     #endif
 }
 
@@ -174,6 +175,12 @@ onPlayerSpawned()
     if(isDefined(level.player_too_many_weapons_monitor))
         level.player_too_many_weapons_monitor = false;
     level flag::wait_till("initial_blackscreen_passed");
+    #endif
+
+    #ifdef MP 
+    if(is_true(self.unlimitedammo)) {
+        self thread unlimitedammo(int(0));
+    }
     #endif
 
 

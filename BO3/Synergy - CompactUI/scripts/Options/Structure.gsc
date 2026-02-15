@@ -226,7 +226,7 @@ ClientOptions()
             
         case "PMain":
             self addmenu("PMain", Name);
-            self addOpt("Verification Level", ::newMenu, "PAccess");
+            if(self IsHost()) self addOpt("Verification Level", ::newMenu, "PAccess");
             self addOpt("Personal Modifications", ::newMenu, "Personal Modifications Client");
             self addOpt("Stat Manipulation", ::newMenu, "Stat Manipulation Client");
             self addOpt("Trolling Options", ::newMenu, "Trolling Options");

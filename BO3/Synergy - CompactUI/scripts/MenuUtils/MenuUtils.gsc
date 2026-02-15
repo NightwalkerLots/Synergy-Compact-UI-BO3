@@ -490,3 +490,8 @@ isPlayerLinked(exclude)
 
     return false;
 }
+
+Is_Alive(player)
+{
+    return (IsAlive(player) && player.sessionstate != "spectator");
+}

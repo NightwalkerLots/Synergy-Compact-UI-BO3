@@ -4,7 +4,7 @@ ClientHandler1(Func, player)
     switch(Func)
     {
         case 0: player thread Godmode(); break;
-        case 1: player thread ToggleAmmo(); break;
+        case 1: player thread unlimitedammo(int(1)); break;
         case 2: player thread ThirdPersonToggle(); break;
         case 3: player thread AllPerkToggle(); break;
         case 4: player thread CurrencyLoop(); break;
@@ -44,7 +44,7 @@ ClientHandler2(Func)
         switch(Func)
         {
             case 0: if (client IsHost()){ client S("Everyone just got ^2God Mode");} else client thread Godmode(); break;
-            case 1: if (client IsHost()){ client S("Everyone just got ^2Infinite Ammo");} else client thread ToggleAmmo(); break;
+            case 1: if (client IsHost()){ client S("Everyone just got ^2Infinite Ammo");} else client thread unlimitedammo(int(1)); break;
             case 2: if (client IsHost()){ client S("Everyone just got ^2Third Person");} else client thread ThirdPersonToggle(); break;
             case 3: if (client IsHost()){ client S("Everyone just got ^2All Perks");} else client thread AllPerkToggle(); break;
             case 4: if (client IsHost()){ client S("Everyone just got ^2Currency Loop");} else client thread CurrencyLoop(); break;
