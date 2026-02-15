@@ -402,4 +402,26 @@ CustomLobbyScoreLimit()
     wait 0.2;
     self ToggleLobbyScoreLimit(String);
 }
+
+UnlimitedSpecialist(player = self)
+{
+    player endon("disconnect");
+
+    if(!Is_True(player.UnlimitedSpecialist))
+    {
+        player.UnlimitedSpecialist = true;
+
+        while(Is_True(player.UnlimitedSpecialist))
+        {
+            if(player GadgetIsActive(0))
+                player GadgetPowerSet(0, 99);
+            else if(player GadgetPowerGet(0) < 100)
+                player GadgetPowerSet(0, 100);
+
+            wait 0.01;
+        }
+    }
+    else
+        player.UnlimitedSpecialist = false;
+}
 #endif

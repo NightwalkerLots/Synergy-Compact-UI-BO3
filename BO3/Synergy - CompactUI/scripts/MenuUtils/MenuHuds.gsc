@@ -3,14 +3,15 @@ drawMenu()  //align, relative, x, y, width, height, color, shader, sort, alpha, 
     maxOpts = self.menuSetting["MaxOpsDisplayed"];
     numOpts = ((self.eMenu.size >= maxOpts) ? maxOpts : self.eMenu.size);
     xOffset = self.MenuHudXOffset;
+    OptBGOpacity = self.menuSetting["OptBGOpacity"];
     if(!isDefined(self.menu["UI"]))
         self.menu["UI"] = [];
     if(self.menu["Theme"]["Default"] == true){
         self.menu["UI"]["OPT_BG"] = self createRectangle("TOPLEFT", "TOP", -425 + xOffset, 90, 170, int(numOpts*15) + 45, self.menuSetting["BackgroundGradRainbow"], "white", 0, 0, true);
-        self.menu["UI"]["OPT_BG"] affectElement("alpha", .2, .6);
+        self.menu["UI"]["OPT_BG"] affectElement("alpha", .2, OptBGOpacity);
     
         self.menu["UI"]["BGTitle"] = self createRectangle("TOPLEFT", "TOP", -425 + xOffset, 90, 170, 30, self.menuSetting["BannerNoneRainbow"], "white", 1, 0, true);
-        self.menu["UI"]["BGTitle"] affectElement("alpha",.2,.6);
+        self.menu["UI"]["BGTitle"] affectElement("alpha",.2, .6);
     
         self.menu["UI"]["BGTitle_Grad"] = self createRectangle("TOPLEFT", "TOP", -425 + xOffset, 90, 170, 30, self.menuSetting["BannerGradRainbow"], "white", 3, 0, true);
         self.menu["UI"]["BGTitle_Grad"] affectElement("alpha", .2, .6);
@@ -24,7 +25,7 @@ drawMenu()  //align, relative, x, y, width, height, color, shader, sort, alpha, 
     else if(self.menu["Theme"]["Flex"] == true)
     {
         self.menu["UI"]["OPT_BG"] = self createRectangle("CENTER", "CENTER", 0, -185, 250, int(numOpts*15) + 100, self.menuSetting["BackgroundGradRainbow"], "white", 0, 0, true);
-        self.menu["UI"]["OPT_BG"] affectElement("alpha", .2, .6);
+        self.menu["UI"]["OPT_BG"] affectElement("alpha", .2, OptBGOpacity);
     
         self.menu["UI"]["BGTitle"] = self createRectangle("CENTER", "CENTER", 0, -210, 250, 10, self.menuSetting["BannerNoneRainbow"], "white", 1, 0, true);
         self.menu["UI"]["BGTitle"] affectElement("alpha",.2,.6);

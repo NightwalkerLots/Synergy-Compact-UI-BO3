@@ -21,7 +21,7 @@ P(Message)
     self iPrintLn(Message);
 }
 
-HostHintText(text, rainbow = false, show_for_time = 5, font_scale = 1.1, xpos = -285, ypos = -50 ) {
+HostHintText(text, rainbow = false, show_for_time = 5, font_scale = 1.1, xpos = -290, ypos = -50 ) { //higher neg x means more left
     saved_message = text;
     if( !isDefined(self.notifications["count"]) ) {
         self.notifications = [];
@@ -76,24 +76,12 @@ AutoDelHud( elm, time = 5 ) {
     }
 }
 
-Godmode()
-{
-    self.godmode = !bool(self.godmode);
-    if(self.godmode){
-        self EnableInvulnerability();
-        self S("GodMode ^2Enabled");
-    }
-    else
-    {
-        self S("GodMode ^1Disabled");
-        self DisableInvulnerability();
-    }
-}
-
 ToggleAmmo()
 {
+    #ifdef ZM 
     self endon("stopInfAmmo");
     self endon("game_ended");
+    #endif
     if(!isDefined(self.UnlimAmmo))
     {
         self.UnlimAmmo = true;
@@ -244,27 +232,6 @@ welcomeMessage(message, message2) {
 
     self destroyAll(hud);
     self.welcomeMessage = undefined;
-}
-
-PrintMenuControls()
-{
-    self endon("disconnect");
-    self endon("game_ended");
-    info = [];
-    info[0]="Synergy V3 Client Edition";
-    info[1] = "Press [{+speed_throw}] & [{+Melee}] To Open";
-    info[2] = "Press [{+Attack}] & [{+speed_throw}] to Scroll";
-    info[3] = "Press [{+Usereload}] to Select, [{+Melee}] to Go Back";
-    info[4] = "For Rank Sliders, Use [{+ActionSlot 4}] and [{+ActionSlot 3}] To Scroll";
-    for(;;)
-    {
-        for(i=0;i<5;i++)
-        {
-            self P(info[i]);
-            wait 5;
-        }
-        wait .2;
-    }
 }
 
 AllPerkToggle() {

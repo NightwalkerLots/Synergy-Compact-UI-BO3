@@ -4,6 +4,7 @@ PopulateMenuCustomizations() {
             self addMenu("MenuEdis", "Menu Customization");
                 self addOpt("Menu Colours", ::newMenu, "MenuColour");
                 //self addSlider("Set Max Options", self.menuSetting["MaxOpsDisplayed"], 5, 11, 1, ::SetMenuMaxOptions);
+                self addSlider("Menu Background Opacity", self.menuSetting["OptBGOpacity"], 0, 1, 0.1, ::SetOptBGOpacity);
                 self addOpt("Change Theme To Physics N Flex", ::ChangeTheme, 1);
                 self addOpt("Change Theme To Synergy V3", ::ChangeTheme, 0);
         break;

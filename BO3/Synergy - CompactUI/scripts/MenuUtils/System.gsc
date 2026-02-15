@@ -30,7 +30,6 @@ initializeSetup(access, player, allaccess)
         player menuOptions();
         player.menuSetting["HUDEdit"] = true;
         player thread MenuLoad();
-        player thread PrintMenuControls();
     }
 }
 

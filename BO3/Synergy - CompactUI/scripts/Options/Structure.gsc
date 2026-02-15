@@ -15,7 +15,6 @@ menuOptions()
             }
             if(self.access >= 2){
             self addOpt("Weapon Manipulation", ::newMenu, "Weapon Manipulation");
-            self addOpt("Bullet Menu", ::newMenu, "Bullet Menu");
             self addOpt("Lobby Manipulation", ::newMenu, "Lobby Manipulation");
             }
             if(self IsHost()){ self addOpt("Host Menu", ::newMenu, "Host Debug");}
@@ -126,10 +125,6 @@ menuOptions()
         case "Pistols":
         case "Specials":
             self PopulateWeaponOptions();
-        break;
-
-        case "Bullet Menu":
-            self PopulateBulletOptions( );
         break;
 
         case "Lobby Manipulation":

@@ -456,3 +456,37 @@ AntiQuit()
     SetMatchFlag("disableIngameMenu", level.AntiQuit);
 }
 
+SpawnScriptModel(origin, model, angles, time)
+{
+    if(isDefined(time))
+        wait time;
+
+    ent = Spawn("script_model", origin);
+    ent SetModel(model);
+
+    if(isDefined(angles))
+        ent.angles = angles;
+
+    return ent;
+}
+
+isPlayerLinked(exclude)
+{
+    ents = GetEntArray("script_model", "classname");
+
+    for(a = 0; a < ents.size; a++)
+    {
+        if(isDefined(exclude))
+        {
+            if(ents[a] != exclude && self isLinkedTo(ents[a]))
+                return true;
+        }
+        else
+        {
+            if(self isLinkedTo(ents[a]))
+                return true;
+        }
+    }
+
+    return false;
+}

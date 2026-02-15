@@ -151,6 +151,7 @@ init()
 
 onPlayerConnect()
 {
+    host = util::gethostplayer();
     level._WeaponsMP     = StrTok("ar_standard;ar_accurate;ar_cqb;ar_damage;ar_longburst;ar_marksman;ar_fastburst;smg_standard;smg_versatile;smg_capacity;smg_fastfire;smg_burst;smg_longrange;shotgun_pump;shotgun_semiauto;shotgun_fullauto;shotgun_precision;lmg_light;lmg_cqb;lmg_slowfire;lmg_heavy;sniper_fastsemi;sniper_fastbolt;sniper_chargeshot;sniper_powerbolt;pistol_standard;pistol_burst;pistol_fullauto;launcher_standard;launcher_lockonly;knife;knife_loadout",";");
     level.TrackNames       = strTok("Samantha's Lullaby;Dead Ended;Blood of Stalingrad;King of the Hill;Samantha's Sorrow;Damned;Damned 100AE;Damned 3;The Gift;Archangel;Dead Again;The Gift;WTF;Aether;Blood Red Moon;Death Bell;Desolation;High Noon;Mask Walk;Ouest Noir;Richtofen's Delight;Samantha's Desire;Short Arm of the Law;Buried (Theme);Undone;Revelations;A Rising Power;One Way Out;Flesh and Bone;Crypt;Samantha's Journey;Remember Forever;The End Is Near;Nightmare;Not Ready To Die;Shepherd of Fire;Platform of Dreams;Legendary;Skulls of the Damned;Arachnophobia;Betrayal;Zetsubou No Shima;Through The Trees;Snake Skin Boots;Cold Hard Cash;Snake Skin Boots (Instrumental);Lullaby For a Dead Man;The One;Beauty Of Annihilation;115;Abra Cadavre;Pareidolia;Coming Home;Carrion;We All Fall Down;Always Running;Where Are We Going;Archangel;Beauty Of Annihilation (Giant Mix);Damned 3;", ";");
     level.Tracks          = strTok("mus_samanthas_lullaby_magicmix_intro;mus_dead_ended_intro;mus_blood_of_stalingrad_intro;mus_king_of_the_hill_intro;mus_samanthas_sorrow_intro;mus_damned_intro;mus_damned_2_intro;mus_damned_25_intro;mus_the_gift_intro;mus_archangel_theatrical_mix_intro;mus_dead_again_theatrical_mix_intro;mus_the_gift_theatrical_intro;mus_wtf_intro;mus_aether_intro;mus_blood_red_moon_intro;mus_death_bell_intro;mus_desolation_intro;mus_high_noon_intro;mus_maskwalk_intro;mus_quest_noir_intro;mus_richtofans_delight_intro;mus_samanthas_desire_intro;mus_short_arm_of_the_law_intro;mus_theme_from_buried_intro;mus_undone_intro;mus_revelations_intro;mus_a_rising_power_intro;mus_one_way_out_intro;mus_flesh_and_bone_intro;mus_crypt_intro;mus_sam_journey_intro;mus_remember_forever_intro;mus_the_end_is_near_intro;mus_nightmare_intro;mus_not_ready_to_die_intro;mus_shepherd_of_fire_intro;mus_platform_of_dreams_intro;mus_legendary_intro;mus_skulls_of_the_damned_intro;mus_arachnophobia_intro;mus_betrayal_intro;mus_zetsubou_no_shima_intro;mus_through_the_trees_intro;mus_snake_skin_boots_intro;mus_cold_hard_cash_intro;mus_snake_skin_intrumental_intro;mus_lullaby_for_a_dead_man_intro;mus_the_one_intro;mus_beauty_of_annihilation_intro;mus_115_intro;mus_abra_cadavre_intro;mus_pareidolia_intro;mus_coming_home_intro;mus_carrion_intro;mus_we_all_fall_down_intro;mus_always_running_intro;mus_where_are_we_going_intro;mus_archangel_intro;mus_beauty_the_giant_mix_intro;mus_zm_lobby_intro;", ";");
@@ -159,6 +160,11 @@ onPlayerConnect()
     self.iPrintLn = self createText("default", 1, "LEFT", "BOTTOM", -400, -185, 3, 0, "", (1, 1, 1));
     if(isDefined(level.player_too_many_weapons_monitor))
         level.player_too_many_weapons_monitor = false; 
+    #endif
+
+    
+    #ifdef MP 
+    host S("Has Connected", self);
     #endif
 }
 
@@ -169,6 +175,8 @@ onPlayerSpawned()
         level.player_too_many_weapons_monitor = false;
     level flag::wait_till("initial_blackscreen_passed");
     #endif
+
+
     if(self IsHost()){
         self FreezeControls(false);
         self thread initializeSetup(5, self);

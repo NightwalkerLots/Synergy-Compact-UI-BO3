@@ -73,7 +73,8 @@ MenuLoad(Val)
     self.menuSetting["MenuX"] = int(MenuDefaults[18]);
     self.menuSetting["MenuY"] = int(MenuDefaults[19]);
     self.menuSetting["MaxOpsDisplayed"] = GetDvarInt("MaxOpsDisplayed", 8);
-    self.MenuHudXOffset = int(585);
+    self.menuSetting["OptBGOpacity"] = GetDvarFloat("OptBGOpacity", 0.6);
+    self.MenuHudXOffset = int(570);
     
     if(IsDefined(Val) && Val == 1 || IsDefined(Val) && Val == 0)
     {
@@ -301,4 +302,11 @@ SetMenuMaxOptions( val ) {
     self refreshOPTSize();
     self updateScrollbar();
     S("Menu Refreshed");
+}
+
+SetOptBGOpacity( val ) {
+    val = Float(val);
+    self.menuSetting["OptBGOpacity"] = val;
+    Setdvar("OptBGOpacity", val);
+    self.menu["UI"]["OPT_BG"] affectElement("alpha", self.menu["UI"]["OPT_BG"].alpha, val);
 }
