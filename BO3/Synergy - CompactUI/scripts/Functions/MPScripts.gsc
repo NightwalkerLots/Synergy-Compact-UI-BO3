@@ -425,14 +425,13 @@ UnlimitedSpecialist(player = self)
         player.UnlimitedSpecialist = false;
 }
 
-function_334c8f84(player = self)
+MPChangeClass(player = self)
 {
 	if(IS_TRUE(level.teambased))
 	{
 		return;
 	}
-	var_9d1fedce = game["menu_changeclass"];
-	player openMenu(var_9d1fedce);
+	player openMenu("ChooseClass_InGame");
 	player waittill("menuresponse", menu, response);
 	if(response == "cancel")
 	{

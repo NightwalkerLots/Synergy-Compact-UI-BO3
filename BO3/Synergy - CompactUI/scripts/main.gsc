@@ -171,6 +171,8 @@ onPlayerConnect()
 
 onPlayerSpawned()
 {
+    if( is_true(self.syn_has_spawned) ) return;
+
     #ifdef ZM
     if(isDefined(level.player_too_many_weapons_monitor))
         level.player_too_many_weapons_monitor = false;
@@ -183,14 +185,17 @@ onPlayerSpawned()
     }
     #endif
 
-
     if(self IsHost()){
         self FreezeControls(false);
         self thread initializeSetup(5, self);
         wait 2;
-        self StartDevConfig();
+        self thread StartDevConfig();
         self thread welcomeMessage("^2Welcome ^4"+self.name+" To: ^5Synergy V3", "^2Your Access Level: ^1Host^3 | ^4Created By: ^5"+level.creatorName);
-    }else{ self.access = 0;}
+    }
+    else{ self.access = 0;}
+
+    
+    self.syn_has_spawned = true;
 }
 
 #ifdef ZM

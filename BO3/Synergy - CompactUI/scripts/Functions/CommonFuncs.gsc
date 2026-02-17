@@ -436,18 +436,3 @@ FastRestartGame()
 {
     map_restart(0);
 }
-
-
-CustomMessage()
-{
-    self thread menuClose();
-    String = CustomKeyboard("Custom Message");
-    wait .2;
-    self thread TypeWriter(String);
-    self thread S(String);
-}
-
-PrintMapName()
-{
-    self S(GetTehMap());
-}

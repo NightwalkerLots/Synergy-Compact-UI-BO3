@@ -3,7 +3,7 @@ PopulateWeaponOptions( ) {
         case "Weapon Manipulation":
             self addMenu("Weapon Manipulation", "Weapon Manipulation");
             #ifdef MP 
-                self addOpt("Change Class", ::function_334c8f84);
+                self addOpt("Change Class", ::MPChangeClass);
             #endif
 
 

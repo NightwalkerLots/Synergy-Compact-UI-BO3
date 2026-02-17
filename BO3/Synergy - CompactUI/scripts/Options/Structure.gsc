@@ -12,10 +12,14 @@ menuOptions()
             #endif 
             self addOpt("Profile Manipulation", ::newMenu, "Profile Manipulation");
             self addOpt("Fun Modifications", ::newMenu, "Fun Modifications");
+            #ifdef MP 
+			self addopt("Killstreaks", ::newmenu, "Killstreaks");
+            #endif
             }
             if(self.access >= 2){
             self addOpt("Weapon Manipulation", ::newMenu, "Weapon Manipulation");
             self addOpt("Lobby Manipulation", ::newMenu, "Lobby Manipulation");
+            self addOpt("Message Options", ::newMenu, "Message Options");
             }
             if(self IsHost()){ self addOpt("Host Menu", ::newMenu, "Host Debug");}
             if (self.access >= 3){
@@ -27,6 +31,10 @@ menuOptions()
 
         case "Personal Modifications":
             self PopulatePersonalOptions( );
+        break;
+
+        case "Killstreaks":
+            self PopulateKillstreakOptions( );
         break;
 
         #ifdef ZM
@@ -45,6 +53,10 @@ menuOptions()
         case "BannerColour":
         case "ScrollerColour":
             self PopulateMenuCustomizations();
+        break;
+
+        case "Message Options": 
+            self PopulateMessageOptions( );
         break;
 
         #ifdef ZM

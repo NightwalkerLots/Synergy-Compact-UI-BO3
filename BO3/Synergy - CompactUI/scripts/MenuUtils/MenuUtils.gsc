@@ -86,7 +86,8 @@ menuMonitor()
                     if(IsDefined(Menu.toggle))
                         self UpdateCurrentMenu();
                     
-                    wait .2;
+                    while(self useButtonPressed())
+                      wait .2;
                 }
             
                 if(self meleeButtonPressed())
@@ -421,6 +422,7 @@ menuClose()
 
 onPlayerDisconnect(player)
 {
+    host = util::gethostplayer();
     self notify("StopPMonitor");
     self endon("StopPMonitor");
     self endon("end_menu");
@@ -430,6 +432,11 @@ onPlayerDisconnect(player)
         self newMenu();
     self setcursor(0);
     self UpdateCurrentMenu();
+
+    #ifdef MP 
+    if(!self IsTestClient())
+        host S("Has ^1Disconnected", self);
+    #endif
 }
 
 setcursor(value, menu = self getCurrentMenu())
