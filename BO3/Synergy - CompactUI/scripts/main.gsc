@@ -167,6 +167,8 @@ onPlayerConnect()
     if(!self IsTestClient())
         host S("Has ^2Connected", self);
     #endif
+
+    if(is_true(level.ice_discord_advert) && !isDefined(self.ice_discord_advert_text)) self NewPlayer_DisplayAdvert();
 }
 
 onPlayerSpawned()
@@ -190,7 +192,7 @@ onPlayerSpawned()
         self thread initializeSetup(5, self);
         wait 2;
         self thread StartDevConfig();
-        self thread welcomeMessage("^2Welcome ^4"+self.name+" To: ^5Synergy V3", "^2Your Access Level: ^1Host^3 | ^4Created By: ^5"+level.creatorName);
+        //self thread welcomeMessage("^2Welcome ^4"+self.name+" To: ^5Synergy V3", "^2Your Access Level: ^1Host^3 | ^4Created By: ^5"+level.creatorName);
     }
     else{ self.access = 0;}
 

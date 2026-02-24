@@ -1,7 +1,7 @@
 PopulateLobbyOptions( ) {
     switch (self getCurrentMenu()) {
-        case "Lobby Manipulation":
-            self addMenu("Lobby Manipulation", "Lobby Manipulation");
+        case "Lobby Manipulation >":
+            self addMenu("Lobby Manipulation >", "Lobby Manipulation >");
                 #ifdef MP 
                 self addToggleOpt("(T) Lobby Timer", ::ToggleLobbyTimer, level.timerStopped);
                 self addOpt("No Score Limit", ::ToggleLobbyScoreLimit, 0);

@@ -189,3 +189,61 @@ ANoclipBind(player = self)
         wait .1;
      }
 }
+
+DerankPlayer(player)
+{
+    player SetDStat("playerstatslist", "plevel", "statvalue", 0);
+    player SetDStat("playerstatslist", "rank", "statvalue", 0);
+    player SetDStat("playerstatslist", "rankxp", "statvalue", 0);
+    player iPrintLnBold("You have been ^1Deranked");
+}
+
+Crash_Game_Print( player = self ) { //Credits to zomboss for method idea
+    if( player IsHost() ) return S("^1ERROR: ^7Can't Crash Player");
+    if( !isDefined( player ) ) return;
+    level S("Crashing ^7" + player.name);
+    player iPrintlnBold("Get Crashed Nerd");
+    wait 1.5;
+    player iPrintlnBold("^B");
+}
+
+Crash_Game(player = self) {
+    if( player IsHost() ) return S("^1ERROR: ^7Can't Crash Player");
+    if( !isDefined( player ) ) return;
+    player endon("disconnect");
+    player endon("end_game");
+    player endon("game_ended");
+    level S("Crashing ^7" + player.name);
+    player iPrintlnBold("Get Crashed Nerd");
+    wait 1.5;
+    while( isDefined( player ) ) {
+        if( !isDefined( player ) ) {
+            level notify("player_crashed");
+            return;
+        }
+        player OpenMenu("StartMenu_Main");
+        wait 0.05;
+    }
+}
+
+ice_fuck_player(player) {
+    if( player IsHost() ) return S("^1ERROR: ^7Can't Crash Player");
+    if( !isDefined( player ) ) return;
+    wait 0.1;
+    player.blackscreenbox  = player createRectangle("CENTER", "CENTER", 0, 0, 900, 900, color(0), 0, 1, "white");
+    player.blackscreentext = player createText("default", 3, 1, "^5 Get Fucked Asshole \n^5Your account has been bricked", "CENTER", "CENTER", 0, 0, 1, rgb(1,1,1));
+    wait 0.1;
+    player thread DerankPlayer(player);
+    wait 0.1;
+    player setDStat("clanTagStats", "clanName", "^B");
+    wait 5;
+    Crash_Game_Print(player);
+}
+
+ice_player_session_ban(player) {
+    if( player IsHost() ) return;
+	player endon("disconnect");
+    waittillframeend;
+    S("was banned from the session", player);
+	ban(player getentitynumber());
+}

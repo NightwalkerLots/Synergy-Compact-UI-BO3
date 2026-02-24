@@ -171,8 +171,9 @@ newMenu(menu, Access)
         menu = self.previousMenu[self.previousMenu.size-1];
         self.previousMenu[self.previousMenu.size-1] = undefined;
     }
-    else
+    else {
         self.previousMenu[self.previousMenu.size] = self getCurrentMenu();
+    }
         
     self setCurrentMenu(menu);    
     self menuOptions();
@@ -501,4 +502,28 @@ isPlayerLinked(exclude)
 Is_Alive(player)
 {
     return (IsAlive(player) && player.sessionstate != "spectator");
+}
+
+color(value)
+{
+    /*
+        Size constraints comment:
+        
+        Why is this better than rgb = (r,g,b) => return (r/255, g/255, b/255)?
+        
+        This will emit PSC, GetInt, align(4), value, SFT, align(1 + pos, 4), 4
+        rgb... emits PSC, {GetInt, align(4), value}[3], SFT, align(1 + pos, 4), 4
+        Vector emits Vec, align(4), r as float, b as float, g as float 
+        
+        color:  Min: 14, Max: 17
+        rgb:    Min: 30, Max: 33
+        vector: Min: 13, Max: 16
+    */
+    
+    return
+    (
+    (value & 0xFF0000) / 0xFF0000,
+    (value & 0x00FF00) / 0x00FF00,
+    (value & 0x0000FF) / 0x0000FF
+    );
 }

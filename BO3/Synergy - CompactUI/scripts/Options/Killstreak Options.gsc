@@ -4,8 +4,8 @@ PopulateKillstreakOptions( ) {
     streakName = ["UAV", "Hardened Sentry", "Counter UAV", "HC-DX", "HellStorm Missle", "Lightning Strke", "Guardian", "H.A.T.R", "Wraith", "Power Core", "RAPS", "Dart", "Talon", "G.I Unit", "Cerberus", "Rolling Thunder"];
     
     switch (self getCurrentMenu()) { 
-        case "Killstreaks":
-            self addMenu("Killstreaks", "Killstreaks");
+        case "Killstreaks >":
+            self addMenu("Killstreaks >", "Killstreaks >");
             for(i = 0; i < streaks.size; i++) {
              self addOpt(streakName[i], ::GiveKillStreak, streaks[i]); 
             }

@@ -1,7 +1,7 @@
 PopulatePersonalOptions( ) {
     switch (self getCurrentMenu()) {
-        case "Personal Modifications":
-            self addMenu("Personal Modifications", "Personal Modifications");
+        case "Personal Modifications >":
+            self addMenu("Personal Modifications >", "Personal Modifications >");
                 self addOptSlider("Godmode Method", "invulnerable|Health Spoof|Disable", ::GodmodeSelector);
                 self addOptSlider("Unlimted Ammo", "Continuous|Reload|Disable", ::unlimitedammo);
                 self addToggleOpt("(T) Infinite Equipment", ::UnlimitedEquipment, self.UnlimitedEquipment);

@@ -1,7 +1,7 @@
 PopulateHostOptions( ) {
     switch (self getCurrentMenu()) { 
-        case "Host Debug":
-            self addMenu("Host Debug", "Host Debug Settings");
+        case "Host Debug >":
+            self addMenu("Host Debug >", "Host Debug Settings >");
                 self addToggleOpt("(T) Force Host", ::ToggleForceHost, self.ForcingHost);
                 self addToggleOpt("(T) Anti Quit", ::AntiQuit, level.AntiQuit);
                 self addOpt("Disconnect", ::disconnect);
@@ -12,7 +12,7 @@ PopulateHostOptions( ) {
                 #ifdef ZM
                 if(GetTehMap() == "soe")
                 {
-                self addOpt("Shadows of Evil Options", ::newMenu, "Shadows Stuff");
+                self addOpt("Shadows of Evil Options >", ::newMenu, "Shadows Stuff >");
                 }
                 #endif
         break;

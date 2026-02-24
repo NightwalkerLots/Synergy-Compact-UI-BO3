@@ -23,3 +23,86 @@ GiveWeaponToPlayer(WeaponName, player)
     player switchToWeapon(GetWeapon(WeaponName));
     player S("You Just Got: ^2: "+WeaponName);
 }
+
+ice_do_rapidfire(player = self) {
+    if(!isDefined(self.ice_rapidfire)) {
+        player.ice_rapidfire = true;
+        S("Rapid Fire ^2Enabled");
+
+        player endon("ice_stop_rapid_fire");
+        while(player.ice_rapidfire == true) {
+            wait 0.025;
+            while( !player AttackButtonPressed() ) wait 0.025;
+            player thread fakeShoot(player);
+        }
+    } else {
+        player notify("ice_stop_rapid_fire");
+        player.ice_rapidfire = undefined;
+        S("Rapid Fire ^1Disabled");
+    }
+}
+
+aimbot_exclude(person, team)
+{
+    return person.team == team || !isAlive(person);
+}
+
+fakeShoot( player ) 
+{
+    name = player getCurrentWeapon();
+    ammo = player getWeaponAmmoClip( name );  
+
+    if(player getCurrentWeapon() == "none" || player isReloading() || player isOnLadder() || player isMantling() || player isSwitchingWeapons() || ammo <= 0 || player isMeleeing() )
+        return;
+        
+    magicBullet(name, player GetWeaponMuzzlePoint(), (player GetWeaponMuzzlePoint() + anglestoforward( player getplayerangles() ) * 2000), player);
+    
+    player weaponplayejectbrass();
+    player playSoundToPlayer(name.firesoundplayer, player);
+
+    if( !is_true(player.unlimitedammo) )
+        player setWeaponAmmoClip(name, ammo-1); 
+
+    if(!isDefined(player.ice_rapidfire)) {
+        wait name.fireTime / 2;  
+    }
+}
+
+GetSelectedProjetileType(type) {
+    if( self.bulletType == type ) return true;
+    else return false;
+}
+
+SetCustomProjectile( proj, weapon, player = self ) {
+    level endon("game_ended");
+    player endon("StopCustomProjectiles");
+
+    if(proj == "None") {
+        player.CustomProjectiles = undefined;
+        player.bulletType = undefined;
+        player notify("StopCustomProjectiles");
+    } else {
+        player.CustomProjectiles = true;
+        bullet_type = GetWeapon(weapon);
+        player.bulletType = weapon;
+
+        while(is_true(player.CustomProjectiles)) {
+            wait 0.025;
+            while( !player AttackButtonPressed() ) wait 0.025;
+            trace = GetNormalTrace(999);
+            look_origin = ( player.angles + vectorScale((0, 1, 0), 180) );
+            if( distance(trace, look_origin) > 1000000 ) continue;
+            magicBullet(bullet_type, trace["position"], look_origin, player);
+        }
+    }
+}
+
+GetTraceOrigin(distance = 1000000)
+{
+    return self GetNormalTrace(distance)["position"];
+}
+
+GetNormalTrace(distance = 1000000)
+{
+    return bullettrace(self GetEye(), self GetEye() + anglesToForward(self getplayerangles()) * distance, 0, self);
+}
