@@ -74,25 +74,26 @@ GetSelectedProjetileType(type) {
 }
 
 SetCustomProjectile( proj, weapon, player = self ) {
-    level endon("game_ended");
-    player endon("StopCustomProjectiles");
-
-    if(proj == "None") {
+    if(isDefined(player.CustomProjectiles)) {
         player.CustomProjectiles = undefined;
         player.bulletType = undefined;
         player notify("StopCustomProjectiles");
+    }
+    
+    if(proj == "None") {
+        return;
     } else {
+        level endon("game_ended");
+        player endon("StopCustomProjectiles");
         player.CustomProjectiles = true;
         bullet_type = GetWeapon(weapon);
         player.bulletType = weapon;
 
         while(is_true(player.CustomProjectiles)) {
             wait 0.025;
-            while( !player AttackButtonPressed() ) wait 0.025;
+            player waittill("weapon_fired");
             trace = GetNormalTrace(999);
-            look_origin = ( player.angles + vectorScale((0, 1, 0), 180) );
-            if( distance(trace, look_origin) > 1000000 ) continue;
-            magicBullet(bullet_type, trace["position"], look_origin, player);
+            magicBullet(bullet_type, player GetWeaponMuzzlePoint(), trace["position"], player);
         }
     }
 }

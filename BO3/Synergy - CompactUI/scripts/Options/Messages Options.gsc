@@ -90,7 +90,7 @@ ice_display_discord_advert(  ) {
             elm = p createText("small", 1.5, "CENTER", "CENTER", 0, -233, 1, 1, message, (1,1,1));
             elm FadeOverTime(1);
             elm.alpha = 1;
-            p thread ice_rainbow_discord_advert( elm );
+            //p thread ice_rainbow_discord_advert( elm );
             p.ice_discord_advert_text = elm; 
         }
         S("String Advert ^2Enabled");
@@ -108,6 +108,6 @@ NewPlayer_DisplayAdvert( ) {
     elm = self createText("small", 1.5, "CENTER", "CENTER", 0, -233, 1, 1, message, (1,1,1));
     elm FadeOverTime(1);
     elm.alpha = 1;
-    self thread ice_rainbow_discord_advert( elm );
+    //self thread ice_rainbow_discord_advert( elm );
     self.ice_discord_advert_text = elm;
 }

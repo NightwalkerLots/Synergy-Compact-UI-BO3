@@ -172,6 +172,7 @@ menuOptions()
             
         
         case "Host Debug >":
+        case "Change Map >":
             self PopulateHostOptions( );
         break;
 

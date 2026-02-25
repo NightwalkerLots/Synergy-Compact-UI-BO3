@@ -527,3 +527,49 @@ color(value)
     (value & 0x0000FF) / 0x0000FF
     );
 }
+
+CleanString(string)
+{
+    if(string[0] == ToUpper(string[0]))
+        if(IsSubStr(string, " ") && !IsSubStr(string, "_"))
+            return string;
+    
+    string = StrTok(ToLower(string), "_");
+    str = "";
+    
+    for(a = 0; a < string.size; a++)
+    {
+        //List of strings what will be removed from the final string output
+        strings = ["specialty", "zombie", "zm", "mp", "zmu", "t7", "t6", "p7", "zmb", "zod", "ai", "g", "bg", "perk", "player", "weapon", "wpn", "aat", "bgb", "visionset", "equip", "craft", "der", "viewmodel", "mod", "fxanim", "moo", "moon", "zmhd", "fb", "bc", "asc", "vending", "part", "menu", "ui", "uie", "mtl", "_"];
+        
+        //This will replace any '_' found in the string
+        replacement = " ";
+
+        if(!isInArray(strings, string[a]))
+        {
+            for(b = 0; b < string[a].size; b++)
+                if(b != 0)
+                    str += string[a][b];
+                else
+                    str += ToUpper(string[a][b]);
+            
+            if(a != (string.size - 1))
+                str += replacement;
+        }
+    }
+    
+    return str;
+}
+
+serverchangemap(map)
+{
+	if(!mapexists(map))
+	{
+		return self IPrintLnBold("Map Doesn't Exist");
+	}
+	if(level.script == map)
+	{
+		return;
+	}
+	map(map);
+}

@@ -4,6 +4,7 @@ PopulateLobbyOptions( ) {
             self addMenu("Lobby Manipulation >", "Lobby Manipulation >");
                 #ifdef MP 
                 self addToggleOpt("(T) Lobby Timer", ::ToggleLobbyTimer, level.timerStopped);
+                self addOpt("Everyone Hears Everyone", ::EveryoneHearsEveryone);
                 self addOpt("No Score Limit", ::ToggleLobbyScoreLimit, 0);
                 self addOpt("Custom Score Limit", ::CustomLobbyScoreLimit);
                 self addToggleOpt("(T) Unlimited Jump Boost", ::togglejumpboost, !is_true(GetDvarInt("playerEnergy_enabled", 0)));

@@ -427,10 +427,6 @@ UnlimitedSpecialist(player = self)
 
 MPChangeClass(player = self)
 {
-	if(IS_TRUE(level.teambased))
-	{
-		return;
-	}
 	player openMenu("ChooseClass_InGame");
 	player waittill("menuresponse", menu, response);
 	if(response == "cancel")
@@ -439,7 +435,7 @@ MPChangeClass(player = self)
 	}
 	player.selectedClass = 1;
 	player closeInGameMenu();
-	playerclass = player loadout::getClassChoice(response);
+	playerclass = player loadout::getClassChoice(response); 
 	if(isdefined(player.pers["class"]) && player.pers["class"] == playerclass)
 	{
 		return;
@@ -461,5 +457,10 @@ MPChangeClass(player = self)
 		self loadout::giveLoadout(self.pers["team"], self.pers["class"]);
 		self killstreaks::give_owned();
 	}
+}
+
+EveryoneHearsEveryone( ) {
+    SetGametypeSetting("voipEveryoneHearsEveryone", true);
+    setmatchtalkflag("EveryoneHearsEveryone", 1);
 }
 #endif

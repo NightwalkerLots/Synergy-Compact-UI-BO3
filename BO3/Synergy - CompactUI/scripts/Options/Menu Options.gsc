@@ -41,3 +41,7 @@ PopulateMenuCustomizations() {
         break;
     }
 }
+
+ToggleJoinNotivs( ) {
+    self.mpjoinnotivs = isDefined(self.mpjoinnotivs) ? undefined : true;
+}

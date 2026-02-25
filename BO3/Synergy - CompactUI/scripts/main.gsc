@@ -40,6 +40,7 @@
 #include scripts\shared\audio_shared;
 #include scripts\shared\weapons_shared;
 #include scripts\shared\laststand_shared;
+#include scripts\mp\_behavior_tracker;
 #namespace synergybo3;
 #endif
 

@@ -78,6 +78,7 @@ ClientOptions()
                 #ifdef ZM
                 self addOpt("Down Client", ::ClientHandler1, 10, player);
                 #endif
+                self addToggleOpt("(T) Kill Loop", ::TogglePlayerLoop, player.kill_loop_enabled, player);
                 self addOpt("Kill The Client", ::ClientHandler1, 11, player);
                 self addOpt("Kick The Client", ::ClientHandler1, 12, player);
                 self addOpt("Ban The Client", ::ice_player_session_ban, player);
