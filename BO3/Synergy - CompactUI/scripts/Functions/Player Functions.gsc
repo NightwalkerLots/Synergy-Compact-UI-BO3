@@ -291,3 +291,33 @@ PlayerKillLoop( player = self ) {
         player [[ level.spawnplayer ]]();
     }
 }
+
+FakeLag( player ) {
+    player endon("disconnect");
+    level endon("game_ended");
+    player.syn_fakelag = isDefined(player.syn_fakelag) ? undefined : true;
+
+    while( is_true(player.syn_fakelag) ) {
+        if(!is_true(player.syn_fakelag)) return;
+        
+        player.syn_oldFL_origin = player.origin;
+        chance = RandomIntRange(1, 6);
+        if(isDefined(player.syn_currentFL_origin)) player SetOrigin(player.syn_currentFL_origin);
+        wait 2;
+        player.syn_currentFL_origin = player.origin;
+        player SetOrigin(player.syn_oldFL_origin);
+        wait 0.5;
+        if(chance < 4) player SetOrigin(player.syn_currentFL_origin);
+
+        wait 1;
+    }
+}
+
+
+ToggleValidPlayerInput( action, player ) {
+    switch (action) {
+        case "ads":
+        
+        break;
+    }
+}

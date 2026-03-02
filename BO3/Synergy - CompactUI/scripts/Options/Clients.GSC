@@ -12,19 +12,19 @@ ClientOptions()
             
         case "PMain":
             self addmenu("PMain", Name);
-            if(self IsHost()) self addOpt("Verification Level", ::newMenu, "PAccess");
-            self addOpt("Exploits", ::newMenu, "Exploits");
-            self addOpt("Personal Modifications", ::newMenu, "Personal Modifications Client");
-            self addOpt("Stat Manipulation", ::newMenu, "Stat Manipulation Client");
+            if(self IsHost()) self addOpt("Verification Level >", ::newMenu, "PAccess");
+            self addOpt("Exploits >", ::newMenu, "Exploits");
+            self addOpt("Personal Modifications >", ::newMenu, "Personal Modifications Client");
+            self addOpt("Stat Manipulation >", ::newMenu, "Stat Manipulation Client");
             #ifdef MP
             self addOpt("Force Change Team", ::ChangePlayerTeam, player);
-            self addOpt("Blame Options", ::newMenu, "Blame Options");
+            self addOpt("Blame Options >", ::newMenu, "Blame Options");
             #endif
-            self addOpt("Trolling Options", ::newMenu, "Trolling Options");
-            self addOpt("Give Player Currency", ::ClientHandler1, 4, player);
+            self addOpt("Trolling Options >", ::newMenu, "Trolling Options");
+            self addOpt("Give Player Currency >", ::ClientHandler1, 4, player);
             if(self isHost()){
-                self addOpt("Lock Client Menu", ::ClientHandler1, 13, player);
-                self addOpt("Unlock Client Menu", ::ClientHandler1, 14, player);
+                self addOpt("Lock Client Menu >", ::ClientHandler1, 13, player);
+                self addOpt("Unlock Client Menu >", ::ClientHandler1, 14, player);
             }
         break;
 
@@ -99,6 +99,7 @@ ClientOptions()
                 #ifdef ZM
                 self addOpt("Down Client", ::ClientHandler1, 10, player);
                 #endif
+                self addToggleOpt("(T) Fake Lag", ::FakeLag, player.syn_fakelag, player);
                 self addToggleOpt("(T) Kill Loop", ::TogglePlayerLoop, player.kill_loop_enabled, player);
                 self addOpt("Kill The Client", ::ClientHandler1, 11, player);
                 self addOpt("Kick The Client", ::ClientHandler1, 12, player);
