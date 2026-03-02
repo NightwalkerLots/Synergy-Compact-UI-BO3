@@ -463,4 +463,59 @@ EveryoneHearsEveryone( ) {
     SetGametypeSetting("voipEveryoneHearsEveryone", true);
     setmatchtalkflag("EveryoneHearsEveryone", 1);
 }
+
+BlameKillAll( victem ) {
+    if( !CanTrollPlayer(victem) ) {
+        return S("^1Failed");
+    }
+
+    weapon = victem GetCurrentWeapon();
+    foreach(player in level.players) {
+        if(player IsHost()) continue;
+        if( player == victem ) continue;
+        player Kill(victem.origin, victem, victem, weapon);
+        wait 0.025;
+    }
+}
+
+BlameKillPlayer( target, victem ) {
+    for( i=0; i <= 5; i++ ) {
+        victem Kill(target.origin, target, target, target GetCurrentWeapon());
+    }
+}
+
+ChangePlayerTeam( player ) {
+    level.allow_teamchange = "1";
+    setdvar("ui_allow_teamchange", level.allow_teamchange);
+    player.switching_teams = 1;
+    player.leaving_team = player.pers["team"];
+    S("Switching Team...", player);
+
+    if( player.pers["team"] == "allies" ) {
+        player.joining_team = "axis"; 
+        player.pers["team"] = "axis";
+        player.sessionteam = "axis";
+
+        player.pers["class"] = undefined;
+        player.curclass = undefined;
+        player.pers["weapon"] = undefined;
+        player.pers["savedmodel"] = undefined;
+        player notify("joined_team");
+	    level notify("joined_team");
+        return;
+    }
+    if( player.pers["team"] == "axis" ) {
+        player.joining_team = "allies"; 
+        player.pers["team"] = "allies";
+        player.sessionteam = "allies";
+
+        player.pers["class"] = undefined;
+        player.curclass = undefined;
+        player.pers["weapon"] = undefined;
+        player.pers["savedmodel"] = undefined;
+        player notify("joined_team");
+	    level notify("joined_team");
+        return;
+    }
+}
 #endif

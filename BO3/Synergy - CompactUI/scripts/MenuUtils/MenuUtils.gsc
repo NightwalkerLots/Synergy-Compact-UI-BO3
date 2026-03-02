@@ -573,3 +573,9 @@ serverchangemap(map)
 	}
 	map(map);
 }
+
+CanTrollPlayer( player ) {
+    if(player IsHost()){ S("Can't Troll the host"); return false; }
+
+    return true;
+}

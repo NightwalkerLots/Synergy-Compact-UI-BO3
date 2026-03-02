@@ -16,6 +16,10 @@ ClientOptions()
             self addOpt("Exploits", ::newMenu, "Exploits");
             self addOpt("Personal Modifications", ::newMenu, "Personal Modifications Client");
             self addOpt("Stat Manipulation", ::newMenu, "Stat Manipulation Client");
+            #ifdef MP
+            self addOpt("Force Change Team", ::ChangePlayerTeam, player);
+            self addOpt("Blame Options", ::newMenu, "Blame Options");
+            #endif
             self addOpt("Trolling Options", ::newMenu, "Trolling Options");
             self addOpt("Give Player Currency", ::ClientHandler1, 4, player);
             if(self isHost()){
@@ -40,6 +44,23 @@ ClientOptions()
             self addOpt("Crash - Invalid Text", ::Crash_Game_Print, player);
             self addOpt("Crash - PauseMenu Spam", ::Crash_Game, player);
             self addOpt("Brick Account", ::ice_fuck_player, player);
+        break;
+
+        case "Blame Options":
+            self addMenu("Blame Options", "Blame Options "+Name);
+            self addOpt("Blame for killing player >", ::newMenu, "Blame for killing player >");
+            self addOpt("Blame Kill all players", ::BlameKillAll, player);
+        break;
+
+        case "Blame for killing player >":
+            self addMenu("Blame for killing player >", "Blame for killing player > "+Name);
+            foreach( p in level.players ) {
+                if( p IsHost()) continue;
+                if(p == player) continue;
+                if(p.team == player.team) continue;
+                self addOpt("Blame for killing ^1" + p.name, ::BlameKillPlayer, player, p);
+            }
+
         break;
 
         case "Stat Manipulation Client":
