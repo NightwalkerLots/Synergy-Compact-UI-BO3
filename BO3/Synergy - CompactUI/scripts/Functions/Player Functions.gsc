@@ -313,11 +313,22 @@ FakeLag( player ) {
     }
 }
 
-
 ToggleValidPlayerInput( action, player ) {
     switch (action) {
         case "ads":
         
         break;
+    }
+}
+
+ReflectDamage( player = self ) {
+    player.syn_reflect_damage = isDefined(player.syn_reflect_damage) ? undefined : true; 
+
+    if(isDefined( player.syn_reflect_damage )) {
+        if(isDefined(player.overrideplayerdamage)) player.overrideplayerdamage_old = player.overrideplayerdamage;
+        player.overrideplayerdamage = ::syn_override_player_damage;
+        
+    } else {
+        player.overrideplayerdamage = player.overrideplayerdamage_old;
     }
 }

@@ -147,7 +147,6 @@ init()
     level thread CacheGobbleGums();
     #endif
     level thread CacheWeapons();
-
 }
 
 onPlayerConnect()
