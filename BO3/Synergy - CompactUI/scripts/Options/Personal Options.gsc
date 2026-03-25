@@ -4,7 +4,6 @@ PopulatePersonalOptions( ) {
             self addMenu("Personal Modifications >", "Personal Modifications >");
                 self addOptSlider("Godmode Method", "invulnerable|Health Spoof|Disable", ::GodmodeSelector);
                 self addOptSlider("Unlimted Ammo", "Continuous|Reload|Disable", ::unlimitedammo);
-                self addToggleOpt("(T) Reflect Damage", ::ReflectDamage, self.syn_reflect_damage);
                 self addToggleOpt("(T) Infinite Equipment", ::UnlimitedEquipment, self.UnlimitedEquipment);
                 self addToggleOpt("(T) Infinite Sprint", ::UnlimitedSprint, self.UnlimitedSprint);
                 self addToggleOpt("(T) Third Person", ::ThirdPersonToggle, self.ThirdPersonToggle);

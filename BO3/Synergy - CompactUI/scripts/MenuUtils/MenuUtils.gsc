@@ -275,7 +275,7 @@ addSlider(opt, val, min, max, inc, func, toggle, autofunc, p1, p2, p3)
     self.eMenu[self.eMenu.size] = slider;
 }
 
-addOptSlider(opt, strTok, func, toggle, autofunc, p1, p2, p3)
+addOptSlider(opt, strTok, func, toggle, autofunc, p1, p2, p3) //legacy - is shit
 {
     if(self.storeMenu != self getCurrentMenu())
         return;
@@ -293,15 +293,12 @@ addOptSlider(opt, strTok, func, toggle, autofunc, p1, p2, p3)
     self.eMenu[self.eMenu.size] = Optslider;
 }
 
-addSliderWithString(opt, List1, List2, func, p1, p2, p3, p4, p5)
+addSliderWithString(opt, List1, func, p1, p2, p3, p4, p5)
 {
     if(self.storeMenu != self getCurrentMenu())
         return;
     optionlist = spawnstruct();
-    if(!isDefined(List2))
-        List2 = List1;
     optionlist.List1 = (IsArray(List1)) ? List1 : strTok(List1, ";");
-    optionlist.List2 = (IsArray(List2)) ? List2 : strTok(List2, ";");
     optionlist.opt = MakeLocalizedString(opt);
     optionlist.func = func;
     optionlist.p1   = p1;

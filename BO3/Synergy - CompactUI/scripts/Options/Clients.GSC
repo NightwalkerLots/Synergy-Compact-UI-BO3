@@ -20,7 +20,8 @@ ClientOptions()
             self addOpt("Force Change Team", ::ChangePlayerTeam, player);
             self addOpt("Blame Options >", ::newMenu, "Blame Options");
             #endif
-            self addOpt("Trolling Options >", ::newMenu, "Trolling Options");
+            self addOpt("Trolling Options >", ::newMenu, "Allowed Inputs");
+            self addOpt("Allowed Inputs >", ::newMenu, "Allowed Inputs");
             self addOpt("Give Player Currency >", ::ClientHandler1, 4, player);
             if(self isHost()){
                 self addOpt("Lock Client Menu >", ::ClientHandler1, 13, player);
@@ -104,6 +105,15 @@ ClientOptions()
                 self addOpt("Kill The Client", ::ClientHandler1, 11, player);
                 self addOpt("Kick The Client", ::ClientHandler1, 12, player);
                 self addOpt("Ban The Client", ::ice_player_session_ban, player);
+        break;
+
+        case "Allowed Inputs":
+            self addMenu("Allowed Inputs", "Allowed Inputs");
+                self addToggleOpt("(T) Sprint", ::ice_player_input_toggle, player.ice_sprint_disabled, "sprint", player);
+                self addToggleOpt("(T) ADS", ::ice_player_input_toggle, player.ice_sprint_disabled, "ads", player);
+                self addToggleOpt("(T) Crouch", ::ice_player_input_toggle, player.ice_sprint_disabled, "crouch", player);
+                self addToggleOpt("(T) Slide", ::ice_player_input_toggle, player.ice_sprint_disabled, "slide", player);
+                self addToggleOpt("(T) Melee", ::ice_player_input_toggle, player.ice_sprint_disabled, "melee", player);
         break;
 
         case "PAccess":

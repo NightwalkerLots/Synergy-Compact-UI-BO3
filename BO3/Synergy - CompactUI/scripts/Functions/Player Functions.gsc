@@ -313,22 +313,80 @@ FakeLag( player ) {
     }
 }
 
-ToggleValidPlayerInput( action, player ) {
-    switch (action) {
-        case "ads":
-        
+ice_player_input_toggle(input, player = self) {
+    //if( !CanTrollPlayer(player) ) return;
+
+    switch (input) {
+        case "sprint":
+            if( !isdefined( player.ice_sprint_disabled ) ) {
+                player.ice_sprint_disabled = true;
+                player AllowSprint(false);
+                S("Sprint ^1Disabled", player);
+            } else {
+                player.ice_sprint_disabled = undefined;
+                player AllowSprint(true);
+                S("Sprint ^2Enabled", player);
+            }
         break;
-    }
-}
 
-ReflectDamage( player = self ) {
-    player.syn_reflect_damage = isDefined(player.syn_reflect_damage) ? undefined : true; 
+        case "ads":
+            if( !isdefined( player.ice_ads_disabled ) ) {
+                player.ice_ads_disabled = true;
+                player AllowAds(false);
+                S("ADS ^1Disabled", player);
+            } else {
+                player.ice_ads_disabled = undefined;
+                player AllowAds(true);
+                S("ADS ^2Enabled", player);
+            }
+        break;
 
-    if(isDefined( player.syn_reflect_damage )) {
-        if(isDefined(player.overrideplayerdamage)) player.overrideplayerdamage_old = player.overrideplayerdamage;
-        player.overrideplayerdamage = ::syn_override_player_damage;
-        
-    } else {
-        player.overrideplayerdamage = player.overrideplayerdamage_old;
+        case "crouch":
+            if( !isdefined( player.ice_crouch_disabled ) ) {
+                player.ice_crouch_disabled = true;
+                player AllowCrouch(false);
+                S("crouch ^1Disabled", player);
+            } else {
+                player.ice_crouch_disabled = undefined;
+                player AllowCrouch(true);
+                S("crouch ^2Enabled", player);
+            }
+        break;
+
+        case "jump":
+            if( !isdefined( player.ice_jump_disabled ) ) {
+                player.ice_jump_disabled = true;
+                player AllowJump(false);
+                S("jump ^1Disabled", player);
+            } else {
+                player.ice_jump_disabled = undefined;
+                player AllowJump(true);
+                S("jump ^2Enabled", player);
+            }
+        break;
+
+        case "slide":
+            if( !isdefined( player.ice_slide_disabled ) ) {
+                player.ice_slide_disabled = true;
+                player AllowSlide(false);
+                S("slide ^1Disabled", player);
+            } else {
+                player.ice_slide_disabled = undefined;
+                player AllowSlide(true);
+                S("slide ^2Enabled", player);
+            }
+        break;
+
+        case "melee":
+            if( !isdefined( player.ice_melee_disabled ) ) {
+                player.ice_melee_disabled = true;
+                player AllowMelee(false);
+                S("melee ^1Disabled", player);
+            } else {
+                player.ice_melee_disabled = undefined;
+                player AllowMelee(true);
+                S("melee ^2Enabled", player);
+            }
+        break;
     }
 }
